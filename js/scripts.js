@@ -1,5 +1,7 @@
 function Game() {
-  this.players = []
+  this.players = [],
+  this.currentPlayer = 0;
+  this.id = 0;
 }
 
 
@@ -8,7 +10,9 @@ function Game() {
 function Player(name) {
   this.name = name,
   this.score = 0,
-  this.unbankedScore = 0;
+  this.unbankedScore = 0,
+  this.playerId = currentGame.id,
+  currentGame.id += 1;
 }
 
 
@@ -20,13 +24,15 @@ function getRandomNumber() {
 //this adds the random number to the unbanked score of the current player or resets unbanked score if its a 1
 Player.prototype.rollDie = function () {
   var num = getRandomNumber();
-  console.log(num);
   if (num !== 1) {
-    this.unbankedScore += num;
+    currentGame.players[currentGame.currentPlayer].unbankedScore += num;
+    console.log('yay! rolled a ' + num);
   } else {
-    this.unbankedScore = 0;
-
+    currentGame.players[currentGame.currentPlayer].unbankedScore = 0;
+    currentGame.players[currentGame.currentPlayer].passDie();
+    console.log('crap! rolled a ' + num)
   }
+  console.log(this.unbankedScore + "this sucks")
 }
 
 // //rolls the die
@@ -36,14 +42,19 @@ Player.prototype.rollDie = function () {
 // }
 
 //makes it the other player's turn
-Game.prototype.passDie = function() {
-  var x = $(indexOf(this.players));
-  console.log(x);
-  // if (x + 1 === this.players.length) {
-  //   this.players.score = this.players[0];
-  // } else {
-  //   this.currentPlayer = this.players[x + 1];
-  // }
+Player.prototype.passDie = function() {
+  var x = this.playerId;
+  console.log("player" + (x + 1) + "'s turn just ended.");
+  this.score += this.unbankedScore;
+  //if the id + 1 is equivalent to the length of the array then we are at the end of the array and need to go to the beginning
+  this.unbankedScore = 0;
+  if (this.score >= 20) {
+    console.log(this.name + " WINS all the FISH!")
+  } if (x + 1 === currentGame.players.length) {
+    currentGame.currentPlayer = 0;
+  } else {
+    currentGame.currentPlayer = this.playerId + 1;
+  }
 }
 
 
