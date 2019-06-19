@@ -1,6 +1,10 @@
 function Game() {
   this.players = []
 }
+
+
+
+
 function Player(name) {
   this.name = name,
   this.score = 0,
@@ -14,13 +18,14 @@ function getRandomNumber() {
   return parseInt(Math.random() * (7 - 1) + 1);
 }
 //this adds the random number to the unbanked score of the current player or resets unbanked score if its a 1
-Player.prototype.calculateScore = function () {
+Player.prototype.rollDie = function () {
   var num = getRandomNumber();
   console.log(num);
   if (num !== 1) {
     this.unbankedScore += num;
   } else {
     this.unbankedScore = 0;
+
   }
 }
 
@@ -31,8 +36,20 @@ Player.prototype.calculateScore = function () {
 // }
 
 //makes it the other player's turn
-function passDie() {
-  if (this.players === this.players[0]) {
-
-  }
+Game.prototype.passDie = function() {
+  var x = $(indexOf(this.players));
+  console.log(x);
+  // if (x + 1 === this.players.length) {
+  //   this.players.score = this.players[0];
+  // } else {
+  //   this.currentPlayer = this.players[x + 1];
+  // }
 }
+
+
+var currentGame = new Game();
+var player1 = new Player("Sam");
+var player2 = new Player("Dan");
+
+currentGame.players.push(player1);
+currentGame.players.push(player2);
