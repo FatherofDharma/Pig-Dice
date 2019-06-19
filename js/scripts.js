@@ -26,21 +26,19 @@ Player.prototype.rollDie = function () {
   var num = getRandomNumber();
   if (num !== 1) {
     currentGame.players[currentGame.currentPlayer].unbankedScore += num;
-    console.log('yay! rolled a ' + num);
   } else {
     currentGame.players[currentGame.currentPlayer].unbankedScore = 0;
     currentGame.players[currentGame.currentPlayer].passDie();
-    console.log('crap! rolled a ' + num);
   }
 
-  console.log(this.unbankedScore + ' is your total unbanked score.');
   this.currentDieRoll = num;
 };
 
 //makes it the other player's turn
 Player.prototype.passDie = function () {
   var x = this.playerId;
-  console.log('player' + (x + 1) + 's turn just ended.');
+
+
   this.score += this.unbankedScore;
 
   //if the id + 1 is equivalent to the length of the array then we are at the end of the array and need to go to the beginning
@@ -53,10 +51,10 @@ Player.prototype.passDie = function () {
   } else {
     currentGame.currentPlayer = this.playerId + 1;
   }
+  $("#winner").text('It is now player' + (x + 1) + '\'s turn.');
 };
 
 Player.prototype.output = function () {
-  console.log('hi');
   $('#playerName').text(this.name);
   $('#numberRolled').text(this.currentDieRoll);
   $('#totalUnbanked').text(this.unbankedScore);
@@ -72,15 +70,15 @@ $(document).ready(function () {
   $('#formNewPlayer').submit(function (event) {
     event.preventDefault();
     var newPlayerName = $('#userName').val();
-    console.log(newPlayerName + ' you are not an idiot');
     var player = new Player(newPlayerName);
     currentGame.players.push(player);
+    $('h2').append(' ' + newPlayerName);
+    $('#userName').val('');
   });
 
   $('#rolly').click(function () {
     currentGame.players[currentGame.currentPlayer].rollDie();
     currentGame.players[currentGame.currentPlayer].output();
-    console.log('what is wrong with Sam?');
   });
 
   $('#pass').click(function () {
