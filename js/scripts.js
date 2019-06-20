@@ -38,20 +38,22 @@ Player.prototype.rollDie = function () {
 Player.prototype.passDie = function () {
   var x = this.playerId;
 
-
   this.score += this.unbankedScore;
 
-  //if the id + 1 is equivalent to the length of the array then we are at the end of the array and need to go to the beginning
+  //  If the id + 1 is equivalent to the length of the array then we are at the
+  // end of the array and need to go to the beginning
+
   this.unbankedScore = 0;
   if (this.score >= 100) {
     console.log(this.name + ' WINS all the FISH!');
-    $("#winner").text(this.name + ' WINS all the FISH!')
+    $('#winner').text(this.name + ' WINS all the FISH!');
   } else if (x + 1 === currentGame.players.length) {
     currentGame.currentPlayer = 0;
   } else {
     currentGame.currentPlayer = this.playerId + 1;
   }
-  $("#winner").text('It is now player' + (x + 1) + '\'s turn.');
+
+  $('#winner').text('It is now player' + (x + 1) + '\'s turn.');
 };
 
 Player.prototype.output = function () {
